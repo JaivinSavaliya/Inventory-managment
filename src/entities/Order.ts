@@ -29,6 +29,9 @@ export class Order {
   @Column({ type: "int", nullable: true })
   customer_id: number | null;
 
+  @Column({ type: "varchar", length: 50, default: "pending" })
+  status: string;
+
   @CreateDateColumn()
   created_at: Date;
 

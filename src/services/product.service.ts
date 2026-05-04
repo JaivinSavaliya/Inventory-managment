@@ -32,11 +32,11 @@ export class ProductService {
    */
   static async create(data: CreateProductDto): Promise<Product> {
     const existing = await productRepo().findOne({
-      where: { product_name: data.product_name },
+      where: { name: data.name },
     });
 
     if (existing) {
-      throw ApiError.conflict(`Product "${data.product_name}" already exists (id: ${existing.id})`);
+      throw ApiError.conflict(`Product "${data.name}" already exists (id: ${existing.id})`);
     }
 
     const product = productRepo().create(data);

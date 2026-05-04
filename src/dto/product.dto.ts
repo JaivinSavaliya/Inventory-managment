@@ -11,7 +11,7 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty({ message: "Product name is required" })
   @MaxLength(255)
-  product_name: string;
+  name: string;
 
   @IsString()
   @IsOptional()
@@ -21,13 +21,23 @@ export class CreateProductDto {
   @IsNumber({ maxDecimalPlaces: 2 }, { message: "Price must be a valid number with at most 2 decimal places" })
   @Min(0, { message: "Price must be a positive number" })
   price: number;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(50)
+  unit?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(50)
+  icon?: string;
 }
 
 export class UpdateProductDto {
   @IsString()
   @IsOptional()
   @MaxLength(255)
-  product_name?: string;
+  name?: string;
 
   @IsString()
   @IsOptional()
@@ -38,4 +48,14 @@ export class UpdateProductDto {
   @IsOptional()
   @Min(0, { message: "Price must be a positive number" })
   price?: number;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(50)
+  unit?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(50)
+  icon?: string;
 }

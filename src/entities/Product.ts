@@ -15,13 +15,19 @@ export class Product {
   id: number;
 
   @Column({ type: "varchar", length: 255 })
-  product_name: string;
+  name: string;
 
   @Column({ type: "varchar", length: 500, nullable: true })
   description: string;
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
   price: number;
+
+  @Column({ type: "varchar", length: 50, default: "item" })
+  unit: string;
+
+  @Column({ type: "varchar", length: 50, nullable: true })
+  icon: string;
 
   @CreateDateColumn()
   created_at: Date;

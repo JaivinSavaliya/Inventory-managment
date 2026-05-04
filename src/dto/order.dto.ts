@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   Min,
   ValidateNested,
   ArrayMinSize,
@@ -30,6 +31,10 @@ export class CreateOrderDto {
   @IsInt()
   customer_id?: number | null;
 
+  @IsOptional()
+  @IsString()
+  status?: string;
+
   @IsArray()
   @ArrayMinSize(1, { message: "Order must have at least one item" })
   @ValidateNested({ each: true })
@@ -41,6 +46,10 @@ export class UpdateOrderDto {
   @IsOptional()
   @IsInt()
   customer_id?: number | null;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
 
   @IsOptional()
   @IsArray()

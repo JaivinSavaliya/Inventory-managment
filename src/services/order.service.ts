@@ -54,7 +54,7 @@ export class OrderService {
 
       // Use manual_price if provided, otherwise use product's current price
       const unitPrice =
-        itemDto.manual_price !== undefined ? itemDto.manual_price : Number(product.price);
+        itemDto.manual_price != null ? itemDto.manual_price : Number(product.price);
       const totalPrice = unitPrice * itemDto.quantity;
 
       const orderItem = orderItemRepo().create({
@@ -86,6 +86,7 @@ export class OrderService {
         order_date: new Date(),
         order_total: orderTotal,
         customer_id: data.customer_id || null,
+        status: data.status || "pending",
       });
 
       const savedOrder = await manager.save(Order, order);
@@ -171,6 +172,11 @@ export class OrderService {
       // Update customer if provided
       if (data.customer_id !== undefined) {
         order.customer_id = data.customer_id;
+      }
+
+      // Update status if provided
+      if (data.status !== undefined) {
+        order.status = data.status;
       }
 
       // Replace items if provided
@@ -266,11 +272,11 @@ export class OrderService {
       .innerJoin("item.product", "product")
       .innerJoin("item.order", "order")
       .select("product.id", "product_id")
-      .addSelect("product.product_name", "product_name")
+      .addSelect("product.name", "product_name")
       .addSelect("SUM(item.quantity)", "total_qty")
       .addSelect("SUM(item.total_price)", "total_revenue")
       .groupBy("product.id")
-      .addGroupBy("product.product_name")
+      .addGroupBy("product.name")
       .orderBy("total_qty", "DESC")
       .limit(limit);
 
