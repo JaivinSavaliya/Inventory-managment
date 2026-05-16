@@ -110,10 +110,11 @@ export class OrderService {
    */
   static async getAll(params: {
     id?: number;
-    date?: string;
+    startDate?: string;
+    endDate?: string;
     customerId?: number;
   }): Promise<Order | Order[]> {
-    const { id, date, customerId } = params;
+    const { id, startDate, endDate, customerId } = params;
 
     if (id) {
       const order = await orderRepo().findOne({
@@ -126,12 +127,14 @@ export class OrderService {
 
     const where: any = {};
 
-    if (date) {
-      const startDate = new Date(date);
-      startDate.setHours(0, 0, 0, 0);
-      const endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + 1);
-      where.order_date = Between(startDate, endDate);
+    if (startDate || endDate) {
+      const start = startDate ? new Date(startDate) : new Date(0);
+      start.setHours(0, 0, 0, 0);
+      
+      const end = endDate ? new Date(endDate) : new Date();
+      end.setHours(23, 59, 59, 999);
+      
+      where.order_date = Between(start, end);
     }
 
     if (customerId) {

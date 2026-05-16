@@ -52,12 +52,13 @@ router.get("/", async (req, res, next) => {
     const id = req.query.id
       ? parseInt(req.query.id as string, 10)
       : undefined;
-    const date = req.query.date as string | undefined;
+    const startDate = req.query.startDate as string | undefined;
+    const endDate = req.query.endDate as string | undefined;
     const customerId = req.query.customerId
       ? parseInt(req.query.customerId as string, 10)
       : undefined;
 
-    const result = await OrderService.getAll({ id, date, customerId });
+    const result = await OrderService.getAll({ id, startDate, endDate, customerId });
     res.json({ success: true, data: result });
   } catch (err) {
     next(err);
